@@ -28,7 +28,6 @@ $flash = get_flash();
                 <li class="nav-item"><a class="nav-link" href="<?php echo site_url('index.php'); ?>">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo site_url('index.php#past-tours'); ?>">Past Tours</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo site_url('index.php#upcoming-tours'); ?>">Upcoming Tours</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo site_url('index.php#contact'); ?>">Contact</a></li>
                 <?php if (is_admin_logged_in()): ?>
                     <li class="nav-item"><a class="btn btn-warning btn-sm ms-lg-2" href="<?php echo site_url('admin/index.php'); ?>"><i class="fas fa-user-shield me-1"></i>Admin Panel</a></li>
                     <li class="nav-item"><a class="btn btn-outline-light btn-sm ms-2" href="<?php echo site_url('admin/logout.php'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a></li>

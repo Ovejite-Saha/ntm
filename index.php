@@ -1,5 +1,5 @@
 <?php
-// index.php — Homepage with slideshow, past/upcoming tours, contact form
+// index.php — Homepage with slideshow, past/upcoming tours
 require_once __DIR__ . '/config/session.php';
 require_once __DIR__ . '/config/functions.php';
 
@@ -124,37 +124,6 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
-        </div>
-    </div>
-</section>
-
-<!-- Contact -->
-<section id="contact" class="contact-section">
-    <div class="container">
-        <h2 class="text-center section-title">Contact Us</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card shadow">
-                    <div class="card-body p-4">
-                        <p class="text-muted text-center mb-4">Have a question? Send us a message and we'll get back to you.</p>
-                        <form action="<?php echo site_url('contact-process.php'); ?>" method="post">
-                            <div class="mb-3">
-                                <label class="form-label"><i class="fas fa-envelope me-1"></i>Your Email</label>
-                                <input type="email" name="email" class="form-control form-control-lg" placeholder="you@example.com" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label"><i class="fas fa-tag me-1"></i>Subject</label>
-                                <input type="text" name="subject" class="form-control form-control-lg" placeholder="Subject" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label"><i class="fas fa-comment me-1"></i>Message</label>
-                                <textarea name="message" class="form-control form-control-lg" rows="5" placeholder="Your message..." required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-lg w-100"><i class="fas fa-paper-plane me-1"></i>Send Message</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </section>

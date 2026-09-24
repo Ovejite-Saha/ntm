@@ -51,6 +51,7 @@ $page_title = 'My Dashboard';
             <ul class="navbar-nav ms-auto align-items-lg-center">
                 <li class="nav-item"><a class="nav-link active" href="<?php echo site_url('user/dashboard.php'); ?>"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo site_url('user/profile.php'); ?>"><i class="fas fa-user me-1"></i>My Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo site_url('user/dashboard.php#contact'); ?>"><i class="fas fa-envelope me-1"></i>Contact</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo site_url('index.php'); ?>"><i class="fas fa-home me-1"></i>Home</a></li>
                 <li class="nav-item"><a class="btn btn-outline-light btn-sm ms-lg-2" href="<?php echo site_url('user/logout.php'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
@@ -156,6 +157,37 @@ $page_title = 'My Dashboard';
         </div>
     </div>
 </div>
+
+<!-- Contact -->
+<section id="contact" class="contact-section mt-5">
+    <div class="container">
+        <h2 class="text-center section-title">Contact Us</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <p class="text-muted text-center mb-4">Have a question? Send us a message and we'll get back to you.</p>
+                        <form action="<?php echo site_url('contact-process.php'); ?>" method="post">
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-envelope me-1"></i>Your Email</label>
+                                <input type="email" name="email" class="form-control form-control-lg" placeholder="you@example.com" value="<?php echo sanitize($user['email'] ?? ''); ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-tag me-1"></i>Subject</label>
+                                <input type="text" name="subject" class="form-control form-control-lg" placeholder="Subject" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-comment me-1"></i>Message</label>
+                                <textarea name="message" class="form-control form-control-lg" rows="5" placeholder="Your message..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100"><i class="fas fa-paper-plane me-1"></i>Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <footer class="bg-dark text-light mt-5 py-4">
     <div class="container text-center">

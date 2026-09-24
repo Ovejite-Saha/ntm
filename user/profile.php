@@ -101,7 +101,7 @@ $page_title = 'My Profile';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo sanitize($page_title); ?> - Tour Management</title>
+    <title><?php echo sanitize($page_title); ?> - MIS Tour Group</title>
     <link rel="stylesheet" href="<?php echo site_url('assets/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo site_url('assets/css/all.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo site_url('assets/css/style.css'); ?>">
@@ -117,6 +117,7 @@ $page_title = 'My Profile';
             <ul class="navbar-nav ms-auto align-items-lg-center">
                 <li class="nav-item"><a class="nav-link" href="<?php echo site_url('user/dashboard.php'); ?>"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link active" href="<?php echo site_url('user/profile.php'); ?>"><i class="fas fa-user me-1"></i>My Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo site_url('user/dashboard.php#contact'); ?>"><i class="fas fa-envelope me-1"></i>Contact</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo site_url('index.php'); ?>"><i class="fas fa-home me-1"></i>Home</a></li>
                 <li class="nav-item"><a class="btn btn-outline-light btn-sm ms-lg-2" href="<?php echo site_url('user/logout.php'); ?>"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>

@@ -1,7 +1,7 @@
-// session-timeout.js — 2-minute (120 seconds) auto logout timer
+// session-timeout.js — 20-minute (1200 seconds) auto logout timer
 (function () {
-    var TIMEOUT = 120 * 1000; // 2 minutes
-    var warnAt = 10 * 1000;   // warn 10s before
+    var TIMEOUT = 20 * 60 * 1000; // 20 minutes
+    var warnAt = 60 * 1000;       // warn 1 minute before (optional)
     var timer, warnTimer;
     var timeoutUrl;
 

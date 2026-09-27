@@ -108,11 +108,19 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
             <?php else: ?>
                 <?php foreach ($upcomingTours as $tour): ?>
+                    <?php
+                        $imgs = get_tour_images($tour['id']);
+                        $cover = !empty($imgs) ? site_url($imgs[0]['image_path']) : '';
+                    ?>
                     <div class="col-md-6 col-lg-4">
                         <div class="card tour-card h-100 shadow-sm border-warning">
-                            <div class="card-img-top d-flex align-items-center justify-content-center bg-warning" style="height:200px;">
-                                <i class="fas fa-route fa-3x text-white"></i>
-                            </div>
+                            <?php if ($cover): ?>
+                                <img src="<?php echo $cover; ?>" class="card-img-top" alt="<?php echo sanitize($tour['tour_name']); ?>" style="height:200px;object-fit:cover;">
+                            <?php else: ?>
+                                <div class="card-img-top d-flex align-items-center justify-content-center bg-warning" style="height:200px;">
+                                    <i class="fas fa-route fa-3x text-white"></i>
+                                </div>
+                            <?php endif; ?>
                             <div class="card-body">
                                 <span class="badge badge-upcoming mb-2">Upcoming</span>
                                 <h5 class="card-title"><?php echo sanitize($tour['tour_name']); ?> <small class="text-muted">(<?php echo sanitize($tour['tour_year']); ?>)</small></h5>

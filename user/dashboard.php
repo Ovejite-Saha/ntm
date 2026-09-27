@@ -28,6 +28,36 @@ $stmt->close();
 $completedTours = array_filter($allTours, fn($t) => $t['status'] === 'completed');
 $upcomingTours = array_filter($allTours, fn($t) => $t['status'] === 'upcoming');
 
+// Other registered users for chat
+$members = [];
+$stmt = $conn->prepare("SELECT id, full_name, username, profile_photo FROM users WHERE id != ? ORDER BY full_name ASC LIMIT 20");
+$stmt->bind_param('i', $userId);
+$stmt->execute();
+$res = $stmt->get_result();
+while ($row = $res->fetch_assoc()) {
+    $members[] = $row;
+}
+$stmt->close();
+
+// Unread chat counts
+$unreadTotal = 0;
+$stmt = $conn->prepare("SELECT COUNT(*) AS c FROM chat_messages WHERE receiver_id = ? AND is_read = 0");
+$stmt->bind_param('i', $userId);
+$stmt->execute();
+$unreadTotal = (int)($stmt->get_result()->fetch_assoc()['c'] ?? 0);
+$stmt->close();
+
+// My contact messages (with admin replies)
+$myContacts = [];
+$stmt = $conn->prepare("SELECT * FROM contact_messages WHERE user_id = ? ORDER BY sent_at DESC LIMIT 10");
+$stmt->bind_param('i', $userId);
+$stmt->execute();
+$res = $stmt->get_result();
+while ($row = $res->fetch_assoc()) {
+    $myContacts[] = $row;
+}
+$stmt->close();
+
 $page_title = 'My Dashboard';
 $nav_active = 'user_dashboard';
 require_once __DIR__ . '/../includes/header.php';
@@ -44,6 +74,74 @@ require_once __DIR__ . '/../includes/header.php';
         <div>
             <h2 class="mb-0">Welcome, <?php echo sanitize($user['full_name']); ?>!</h2>
             <small class="text-muted">Here are your assigned tours.</small>
+        </div>
+    </div>
+
+    <!-- Members + Admin replies -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-5">
+            <div class="card shadow h-100">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>Members</h5>
+                    <a href="<?php echo site_url('user/chat.php'); ?>" class="btn btn-sm btn-primary">
+                        <i class="fas fa-comments me-1"></i>Open Chat
+                        <?php if ($unreadTotal > 0): ?>
+                            <span class="badge bg-danger"><?php echo $unreadTotal; ?></span>
+                        <?php endif; ?>
+                    </a>
+                </div>
+                <div class="card-body p-0">
+                    <?php if (empty($members)): ?>
+                        <p class="text-muted text-center py-4 mb-0 small">No other members yet.</p>
+                    <?php else: ?>
+                        <div class="list-group list-group-flush">
+                            <?php foreach ($members as $m): ?>
+                                <a href="<?php echo site_url('user/chat.php?with=' . (int)$m['id']); ?>" class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <?php if (!empty($m['profile_photo']) && file_exists(__DIR__ . '/../' . $m['profile_photo'])): ?>
+                                        <img src="<?php echo site_url($m['profile_photo']); ?>" class="chat-avatar me-2" alt="">
+                                    <?php else: ?>
+                                        <span class="chat-avatar-placeholder me-2"><i class="fas fa-user"></i></span>
+                                    <?php endif; ?>
+                                    <span class="text-truncate">
+                                        <?php echo sanitize($m['full_name']); ?>
+                                        <br><small class="text-muted">@<?php echo sanitize($m['username']); ?></small>
+                                    </span>
+                                    <i class="fas fa-comment-dots ms-auto text-primary"></i>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="card shadow h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="fas fa-reply me-2"></i>Admin Replies to My Contact Messages</h5>
+                </div>
+                <div class="card-body">
+                    <?php if (empty($myContacts)): ?>
+                        <p class="text-muted text-center py-3 mb-0 small">You have not sent any contact messages yet.</p>
+                    <?php else: foreach ($myContacts as $cm): ?>
+                        <div class="border rounded p-3 mb-3">
+                            <div class="d-flex justify-content-between">
+                                <strong><?php echo sanitize($cm['subject']); ?></strong>
+                                <small class="text-muted"><?php echo date('M j, Y', strtotime($cm['sent_at'])); ?></small>
+                            </div>
+                            <p class="small text-muted mb-2"><?php echo nl2br(sanitize($cm['message'])); ?></p>
+                            <?php if (!empty($cm['admin_reply'])): ?>
+                                <div class="alert alert-success mb-0 py-2 small">
+                                    <strong><i class="fas fa-user-shield me-1"></i>Admin reply</strong>
+                                    <span class="text-muted">(<?php echo $cm['replied_at'] ? date('M j, Y g:i A', strtotime($cm['replied_at'])) : ''; ?>)</span>
+                                    <div class="mt-1"><?php echo nl2br(sanitize($cm['admin_reply'])); ?></div>
+                                </div>
+                            <?php else: ?>
+                                <span class="badge bg-secondary">Waiting for admin reply</span>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; endif; ?>
+                </div>
+            </div>
         </div>
     </div>
 

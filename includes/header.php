@@ -93,6 +93,11 @@ $nav = $nav_active ?? '';
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link <?php echo $nav === 'user_chat' ? 'active' : ''; ?>" href="<?php echo site_url('user/chat.php'); ?>">
+                            <i class="fas fa-comments me-1"></i>Chat
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link <?php echo $nav === 'user_contact' ? 'active' : ''; ?>" href="<?php echo site_url('user/dashboard.php#contact'); ?>">
                             <i class="fas fa-envelope me-1"></i>Contact
                         </a>

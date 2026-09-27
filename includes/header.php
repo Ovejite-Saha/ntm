@@ -150,7 +150,7 @@ $nav = $nav_active ?? '';
 <?php if (isset($_GET['timeout']) && $_GET['timeout'] == 1 && !is_logged_in()): ?>
 <div class="container mt-3">
     <div class="alert alert-warning alert-dismissible fade show">
-        <i class="fas fa-clock me-1"></i>You were logged out due to 2 minutes of inactivity.
+        <i class="fas fa-clock me-1"></i>You were logged out due to 20 minutes of inactivity.
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 </div>

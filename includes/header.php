@@ -11,6 +11,8 @@ $nav = $nav_active ?? '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($page_title) ? sanitize($page_title) . ' - ' : ''; ?>MIS Tour Group</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="<?php echo site_url('assets/fav.png'); ?>">
     <link rel="stylesheet" href="<?php echo site_url('assets/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo site_url('assets/css/all.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo site_url('assets/css/style.css'); ?>">

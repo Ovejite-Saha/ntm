@@ -196,7 +196,7 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
         </div>
 
-        <!-- Upcoming Tours -->
+                <!-- Upcoming Tours -->
         <div class="col-lg-6">
             <div class="card shadow h-100">
                 <div class="card-header bg-white">
@@ -206,7 +206,14 @@ require_once __DIR__ . '/../includes/header.php';
                     <?php if (empty($upcomingTours)): ?>
                         <p class="text-muted text-center py-4"><i class="fas fa-route fa-2x d-block mb-2 opacity-50"></i>No upcoming tours assigned yet.</p>
                     <?php else: foreach ($upcomingTours as $tour): ?>
-                        <div class="card mb-3 border-warning">
+                        <?php
+                            $imgs = get_tour_images($tour['id']);
+                            $cover = !empty($imgs) ? site_url($imgs[0]['image_path']) : '';
+                        ?>
+                        <div class="card tour-card mb-3 border-warning">
+                            <?php if ($cover): ?>
+                                <img src="<?php echo $cover; ?>" class="card-img-top" style="height:150px;object-fit:cover;" alt="<?php echo sanitize($tour['tour_name']); ?>">
+                            <?php endif; ?>
                             <div class="card-body">
                                 <h5><?php echo sanitize($tour['tour_name']); ?> <small class="text-muted">(<?php echo sanitize($tour['tour_year']); ?>)</small></h5>
                                 <?php if ($tour['tour_date']): ?>
@@ -214,8 +221,32 @@ require_once __DIR__ . '/../includes/header.php';
                                 <?php endif; ?>
                                 <p class="small text-muted"><?php echo sanitize($tour['description'] ?? ''); ?></p>
                                 <span class="badge badge-upcoming">Upcoming</span>
+                                <?php if (!empty($imgs)): ?>
+                                    <button class="btn btn-sm btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#upcomingTourModal<?php echo $tour['id']; ?>">
+                                        <i class="fas fa-images me-1"></i>View <?php echo count($imgs); ?> Photos
+                                    </button>
+                                <?php endif; ?>
                             </div>
                         </div>
+                        <?php if (!empty($imgs)): ?>
+                        <div class="modal fade" id="upcomingTourModal<?php echo $tour['id']; ?>" tabindex="-1">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title"><?php echo sanitize($tour['tour_name'] . ' (' . $tour['tour_year'] . ')'); ?></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row g-2">
+                                            <?php foreach ($imgs as $img): ?>
+                                            <div class="col-md-4 col-sm-6"><img src="<?php echo site_url($img['image_path']); ?>" class="img-fluid rounded" alt=""></div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                     <?php endforeach; endif; ?>
                 </div>
             </div>

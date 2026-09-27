@@ -20,7 +20,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="col-md-6">
             <?php if ($timeout_msg): ?>
                 <div class="alert alert-warning">
-                    <i class="fas fa-clock me-1"></i>Your session expired due to 2 minutes of inactivity. Please login again.
+                    <i class="fas fa-clock me-1"></i>Your session expired due to 20 minutes of inactivity. Please login again.
                 </div>
             <?php endif; ?>
             <div class="card shadow">

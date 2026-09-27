@@ -16,24 +16,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $to = trim($_POST['to_email'] ?? '');
         $subject = trim($_POST['subject'] ?? '');
         $body = trim($_POST['message'] ?? '');
+        $msgId = (int)($_POST['msg_id'] ?? 0);
 
-        if ($to && $subject && $body) {
+        if ($to && $subject && $body && $msgId) {
             if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
                 set_flash('error', 'Invalid recipient email address.');
-                redirect('messages.php?action=view&id=' . (int)$_POST['msg_id']);
+                redirect('messages.php?action=view&id=' . $msgId);
             }
+
+            // Always save reply in DB so the user can view it on their dashboard
+            $stmt = $conn->prepare("UPDATE contact_messages SET admin_reply = ?, replied_at = NOW() WHERE id = ?");
+            $stmt->bind_param('si', $body, $msgId);
+            $stmt->execute();
+            $stmt->close();
 
             $sent = send_contact_mail($to, 'admin@tourgroup.local', $subject, $body);
 
             if ($sent) {
-                set_flash('success', 'Reply sent successfully to ' . $to);
+                set_flash('success', 'Reply saved and emailed to ' . $to);
             } else {
-                set_flash('error', 'Failed to send email. The mail server may not be configured.');
+                set_flash('success', 'Reply saved. User can view it on their dashboard. (Email server may not be configured.)');
             }
         } else {
             set_flash('error', 'All fields are required to send a reply.');
         }
-        redirect('messages.php?action=view&id=' . (int)$_POST['msg_id']);
+        redirect('messages.php?action=view&id=' . $msgId);
     }
 
     if ($postAction === 'send_new') {

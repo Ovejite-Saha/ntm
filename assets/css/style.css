@@ -142,6 +142,11 @@ footer.site-footer p {
     color: #000;
 }
 
+.badge-not-published {
+    background: #0862e9;
+    color: #fff;
+}
+
 .contact-section {
     background: #f8f9fa;
     padding: 60px 0;

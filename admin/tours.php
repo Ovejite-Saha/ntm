@@ -139,7 +139,9 @@ require_once __DIR__ . '/../includes/header.php';
                                     <select name="status" class="form-select">
                                         <option value="upcoming">Upcoming</option>
                                         <option value="completed">Completed</option>
+                                        <option value="not_published">Not published</option>
                                     </select>
+                                    <div class="form-text">Not published = saved in admin only; hidden from homepage &amp; user panel.</div>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Description</label>
@@ -200,7 +202,11 @@ require_once __DIR__ . '/../includes/header.php';
                                         <tr>
                                             <td><?php echo sanitize($t['tour_name']); ?></td>
                                             <td><?php echo sanitize($t['tour_year']); ?></td>
-                                            <td><span class="badge <?php echo $t['status'] === 'completed' ? 'badge-completed' : 'badge-upcoming'; ?>"><?php echo ucfirst($t['status']); ?></span></td>
+                                            <td><span class="badge <?php
+                                                if ($t['status'] === 'completed') echo 'badge-completed';
+                                                elseif ($t['status'] === 'upcoming') echo 'badge-upcoming';
+                                                else echo 'badge-not-published';
+                                            ?>"><?php echo $t['status'] === 'not_published' ? 'Not published' : ucfirst($t['status']); ?></span></td>
                                             <td>
                                                 <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editTourModal<?php echo $t['id']; ?>"><i class="fas fa-edit"></i></button>
                                                 <a href="?action=delete&id=<?php echo $t['id']; ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this tour and its images?')"><i class="fas fa-trash"></i></a>
@@ -217,7 +223,7 @@ require_once __DIR__ . '/../includes/header.php';
                                                             <div class="mb-3"><label class="form-label">Tour Name</label><input type="text" name="tour_name" class="form-control" value="<?php echo sanitize($t['tour_name']); ?>" required></div>
                                                             <div class="mb-3"><label class="form-label">Year</label><input type="number" name="tour_year" class="form-control" value="<?php echo sanitize($t['tour_year']); ?>" required></div>
                                                             <div class="mb-3"><label class="form-label">Tour Date</label><input type="date" name="tour_date" class="form-control" value="<?php echo $t['tour_date']; ?>"></div>
-                                                            <div class="mb-3"><label class="form-label">Status</label><select name="status" class="form-select"><option value="upcoming" <?php echo $t['status'] === 'upcoming' ? 'selected' : ''; ?>>Upcoming</option><option value="completed" <?php echo $t['status'] === 'completed' ? 'selected' : ''; ?>>Completed</option></select></div>
+                                                            <div class="mb-3"><label class="form-label">Status</label><select name="status" class="form-select"><option value="upcoming" <?php echo $t['status'] === 'upcoming' ? 'selected' : ''; ?>>Upcoming</option><option value="completed" <?php echo $t['status'] === 'completed' ? 'selected' : ''; ?>>Completed</option><option value="not_published" <?php echo $t['status'] === 'not_published' ? 'selected' : ''; ?>>Not published</option></select><div class="form-text">Not published = hidden from homepage &amp; user panel.</div></div>
                                                             <div class="mb-3"><label class="form-label">Description</label><textarea name="description" class="form-control" rows="3"><?php echo sanitize($t['description'] ?? ''); ?></textarea></div>
                                                         </div>
                                                         <div class="modal-footer"><button type="submit" class="btn btn-primary">Save</button><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button></div>
@@ -248,7 +254,11 @@ require_once __DIR__ . '/../includes/header.php';
                                         <tr>
                                             <td><?php echo sanitize($a['full_name']); ?></td>
                                             <td><?php echo sanitize($a['tour_name'] . ' (' . $a['tour_year'] . ')'); ?></td>
-                                            <td><span class="badge <?php echo $a['status'] === 'completed' ? 'badge-completed' : 'badge-upcoming'; ?>"><?php echo ucfirst($a['status']); ?></span></td>
+                                            <td><span class="badge <?php
+                                                if ($a['status'] === 'completed') echo 'badge-completed';
+                                                elseif ($a['status'] === 'upcoming') echo 'badge-upcoming';
+                                                else echo 'badge-not-published';
+                                            ?>"><?php echo $a['status'] === 'not_published' ? 'Not published' : ucfirst($a['status']); ?></span></td>
                                             <td><a href="?action=unassign&user_id=<?php echo $a['user_id']; ?>&tour_id=<?php echo $a['tour_id']; ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Unassign?')"><i class="fas fa-unlink"></i></a></td>
                                         </tr>
                                         <?php endforeach; ?>

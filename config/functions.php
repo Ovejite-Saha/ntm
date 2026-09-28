@@ -243,7 +243,8 @@ function get_tour_images($tourId) {
 
 function get_slideshow_images() {
     $conn = db();
-    $result = $conn->query("SELECT ti.*, t.tour_name, t.tour_year FROM tour_images ti JOIN tours t ON ti.tour_id = t.id WHERE ti.is_slideshow = 1 ORDER BY ti.uploaded_at DESC");
+    // Only show images from published tours (completed or upcoming)
+    $result = $conn->query("SELECT ti.*, t.tour_name, t.tour_year FROM tour_images ti JOIN tours t ON ti.tour_id = t.id WHERE ti.is_slideshow = 1 AND t.status IN ('completed','upcoming') ORDER BY ti.uploaded_at DESC");
     $images = [];
     if ($result) {
         while ($row = $result->fetch_assoc()) {
